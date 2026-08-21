@@ -23,7 +23,14 @@
   "otp_verified_at",
   "otp_expires_at",
   "payment_status",
-  "mock_payment_status"
+  "payment_submitted",
+  "payment_submitted_at",
+  "bank_transaction_id",
+  "bank_response_code",
+  "bank_response_message",
+  "processed_at",
+  "last_status_checked_at",
+  "bank_initiation_started"
  ],
  "fields": [
   {
@@ -102,11 +109,11 @@
    "read_only": 1
   },
   {
-   "default": "Initiated",
+   "default": "OTP Pending",
    "fieldname": "payment_status",
    "fieldtype": "Select",
    "label": "Payment Status",
-   "options": "Initiated\nPending\nCompleted\nFailed\nRejected",
+   "options": "OTP Pending\nOTP Verified\nInitiated\nPending\nCompleted\nFailed\nRejected",
    "read_only": 1,
    "reqd": 1
   },
@@ -138,16 +145,59 @@
    "label": "Amount"
   },
   {
-   "fieldname": "mock_payment_status",
-   "fieldtype": "Select",
-   "label": "Mock Payment Status",
-   "options": "COMPLETED\nPENDING\nFAILED"
+   "default": "0",
+   "fieldname": "payment_submitted",
+   "fieldtype": "Check",
+   "label": "Payment Submitted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_submitted_at",
+   "fieldtype": "Datetime",
+   "label": "Payment Submitted At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_transaction_id",
+   "fieldtype": "Data",
+   "label": "Bank Transaction ID",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_response_code",
+   "fieldtype": "Data",
+   "label": "Bank Response Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bank_response_message",
+   "fieldtype": "Small Text",
+   "label": "Bank Response Message",
+   "read_only": 1
+  },
+  {
+   "fieldname": "processed_at",
+   "fieldtype": "Datetime",
+   "label": "Processed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_status_checked_at",
+   "fieldtype": "Datetime",
+   "label": "Last Status Checked At",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "bank_initiation_started",
+   "fieldtype": "Check",
+   "label": "Bank Initiation Started"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-19 13:17:59.581266",
+ "modified": "2026-08-20 17:53:28.469585",
  "modified_by": "Administrator",
  "module": "Bank Integration",
  "name": "Bank Payment Request",
