@@ -7,17 +7,8 @@ from frappe.utils import generate_hash
 
 
 @frappe.whitelist()
-def create_payment_request(
-    erp_site,
-    erp_doctype,
-    erp_document_name,
-    currency,
-    source_account,
-    beneficiary_account,
-    mode_of_payment,
-):
-
-    request_id = generate_hash()
+def create_payment_request(erp_site, erp_doctype, erp_document_name, currency, source_account, beneficiary_account, mode_of_payment,):
+    request_id = generate_hash(length = 20)
 
     if not erp_site:
         frappe.throw("ERP site is required.")
@@ -61,13 +52,11 @@ def create_payment_request(
     )
 
     payment_request.insert(ignore_permissions=True)
-
     otp_data = generate_payment_otp(payment_request.name)
 
     return {
         "success": True,
-        "request_id": payment_request.request_id,
-        "otp": otp_data["otp"],
+        "request_id": payment_request.request_id,   
         "otp_expires_at": otp_data["otp_expires_at"],
         "otp_status": "Pending",
         "payment_status": "OTP Pending",
@@ -79,12 +68,9 @@ def submit_payment_request(payment_request, amount):
 
     if not payment_request:
         frappe.throw("Payment request is required.")
-
     amount = float(amount or 0)
-
     if amount <= 0:
         frappe.throw("Payment amount must be greater than zero.")
-
     doc_name = frappe.db.get_value(
         "Bank Payment Request", {"request_id": payment_request}, "name"
     )
